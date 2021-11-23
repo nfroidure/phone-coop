@@ -1,4 +1,4 @@
-name: Tests
+name: Tests_Front
 
 on:
   push:
@@ -24,16 +24,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm i
-      working-directory: back
-    - run: npm run compile
-      working-directory: back
-    - run: NODE_ENV=test npm run types
-      working-directory: back
-    - run: npm run lint
-      working-directory: back
-      env:
-        CI: true
-    - run: npm run jest
-      working-directory: back
+      working-directory: front
+    - run: npm run types
+      working-directory: front
       env:
         CI: true
