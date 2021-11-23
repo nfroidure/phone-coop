@@ -4,37 +4,22 @@ exports[`API should always have the same amount of basic authenticated endpoints
 
 exports[`API should always have the same amount of bearer authenticated endpoints 1`] = `
 Array [
-  "get /diagnostic",
   "get /openAPI",
 ]
 `;
 
 exports[`API should always have the same amount of endpoints 1`] = `
 Array [
-  "get /delay",
-  "get /diagnostic",
   "get /openAPI",
   "get /ping",
-  "get /time",
-  "get /{pathParam1}/{pathParam2}",
-  "put /echo",
 ]
 `;
 
 exports[`API should always have the same amount of non authenticated endpoints 1`] = `
 Array [
-  "get /delay",
   "get /ping",
-  "get /time",
-  "get /{pathParam1}/{pathParam2}",
-  "options /delay",
-  "options /diagnostic",
-  "options /echo",
   "options /openAPI",
   "options /ping",
-  "options /time",
-  "options /{pathParam1}/{pathParam2}",
-  "put /echo",
 ]
 `;
 
@@ -46,13 +31,8 @@ Array [
 
 exports[`API should always have the same amount of publicly documented endpoints 1`] = `
 Array [
-  "get /delay",
-  "get /diagnostic",
   "get /openAPI",
   "get /ping",
-  "get /time",
-  "get /{pathParam1}/{pathParam2}",
-  "put /echo",
 ]
 `;
 
@@ -69,105 +49,10 @@ Object {
   "API": Object {
     "components": Object {
       "headers": Object {},
-      "parameters": Object {
-        "duration": Object {
-          "description": "Duration in milliseconds",
-          "in": "query",
-          "name": "duration",
-          "required": true,
-          "schema": Object {
-            "type": "number",
-          },
-        },
-        "pathParam1": Object {
-          "description": "A number param",
-          "in": "path",
-          "name": "pathParam1",
-          "required": true,
-          "schema": Object {
-            "type": "number",
-          },
-        },
-        "pathParam2": Object {
-          "description": "A list of items",
-          "in": "path",
-          "name": "pathParam2",
-          "required": true,
-          "schema": Object {
-            "items": Object {
-              "type": "string",
-            },
-            "type": "array",
-          },
-        },
-      },
-      "requestBodies": Object {
-        "Echo": Object {
-          "content": Object {
-            "application/json": Object {
-              "schema": Object {
-                "$ref": "#/components/schemas/Echo",
-              },
-            },
-          },
-          "required": true,
-        },
-      },
-      "responses": Object {
-        "Diagnostic": Object {
-          "content": Object {
-            "application/json": Object {
-              "schema": Object {
-                "properties": Object {
-                  "transactions": Object {
-                    "additionalProperties": true,
-                    "type": "object",
-                  },
-                },
-                "required": Array [
-                  "transactions",
-                ],
-                "type": "object",
-              },
-            },
-          },
-          "description": "Diagnostic",
-        },
-        "Echo": Object {
-          "content": Object {
-            "application/json": Object {
-              "schema": Object {
-                "$ref": "#/components/schemas/Echo",
-              },
-            },
-          },
-          "description": "Echo response",
-        },
-      },
-      "schemas": Object {
-        "Echo": Object {
-          "additionalProperties": false,
-          "properties": Object {
-            "echo": Object {
-              "type": "string",
-            },
-          },
-          "required": Array [
-            "echo",
-          ],
-          "type": "object",
-        },
-        "TimeSchema": Object {
-          "additionalProperties": false,
-          "properties": Object {
-            "currentDate": Object {
-              "format": "date-time",
-              "type": "string",
-            },
-          },
-          "type": "object",
-        },
-      },
+      "parameters": Object {},
+      "requestBodies": Object {},
+      "responses": Object {},
+      "schemas": Object {},
       "securitySchemes": Object {
         "bearerAuth": Object {
           "description": "Bearer authentication with a user API token",
@@ -177,145 +62,12 @@ Object {
       },
     },
     "info": Object {
-      "description": "A basic Whook server",
-      "title": "@whook/example",
+      "description": "A project to recycle phones",
+      "title": "phone-coop-back",
       "version": "1.1.0",
     },
     "openapi": "3.0.3",
     "paths": Object {
-      "/delay": Object {
-        "get": Object {
-          "operationId": "getDelay",
-          "parameters": Array [
-            Object {
-              "$ref": "#/components/parameters/duration",
-            },
-          ],
-          "responses": Object {
-            "204": Object {
-              "description": "Delay expired",
-            },
-          },
-          "summary": "Answer after a given delay.",
-          "tags": Array [
-            "example",
-          ],
-        },
-        "options": Object {
-          "operationId": "optionsWithCORS",
-          "parameters": Array [
-            Object {
-              "description": "Duration in milliseconds",
-              "in": "query",
-              "name": "duration",
-              "required": false,
-              "schema": Object {
-                "type": "number",
-              },
-            },
-          ],
-          "responses": Object {
-            "200": Object {
-              "description": "CORS sent.",
-            },
-          },
-          "summary": "Enable OPTIONS for CORS",
-          "tags": Array [
-            "CORS",
-          ],
-          "x-whook": Object {
-            "private": true,
-            "sourceOperationId": "getDelay",
-            "suffix": "CORS",
-            "type": "http",
-          },
-        },
-      },
-      "/diagnostic": Object {
-        "get": Object {
-          "operationId": "getDiagnostic",
-          "parameters": Array [],
-          "responses": Object {
-            "200": Object {
-              "$ref": "#/components/responses/Diagnostic",
-            },
-          },
-          "security": Array [
-            Object {
-              "bearerAuth": Array [
-                "admin",
-              ],
-            },
-          ],
-          "summary": "Returns current API's transactions.",
-          "tags": Array [
-            "system",
-          ],
-        },
-        "options": Object {
-          "operationId": "optionsWithCORS",
-          "parameters": Array [
-            Object {
-              "in": "query",
-              "name": "access_token",
-              "schema": Object {
-                "type": "string",
-              },
-            },
-          ],
-          "responses": Object {
-            "200": Object {
-              "description": "CORS sent.",
-            },
-          },
-          "summary": "Enable OPTIONS for CORS",
-          "tags": Array [
-            "CORS",
-          ],
-          "x-whook": Object {
-            "private": true,
-            "sourceOperationId": "getDiagnostic",
-            "suffix": "CORS",
-            "type": "http",
-          },
-        },
-      },
-      "/echo": Object {
-        "options": Object {
-          "operationId": "optionsWithCORS",
-          "parameters": Array [],
-          "responses": Object {
-            "200": Object {
-              "description": "CORS sent.",
-            },
-          },
-          "summary": "Enable OPTIONS for CORS",
-          "tags": Array [
-            "CORS",
-          ],
-          "x-whook": Object {
-            "private": true,
-            "sourceOperationId": "putEcho",
-            "suffix": "CORS",
-            "type": "http",
-          },
-        },
-        "put": Object {
-          "operationId": "putEcho",
-          "requestBody": Object {
-            "$ref": "#/components/requestBodies/Echo",
-          },
-          "responses": Object {
-            "200": Object {
-              "$ref": "#/components/responses/Echo",
-            },
-          },
-          "summary": "Echoes what it takes.",
-          "tags": Array [
-            "example",
-          ],
-        },
-      },
       "/openAPI": Object {
         "get": Object {
           "operationId": "getOpenAPI",
@@ -420,122 +172,6 @@ Object {
           "x-whook": Object {
             "private": true,
             "sourceOperationId": "getPing",
-            "suffix": "CORS",
-            "type": "http",
-          },
-        },
-      },
-      "/time": Object {
-        "get": Object {
-          "operationId": "getTime",
-          "responses": Object {
-            "200": Object {
-              "content": Object {
-                "application/json": Object {
-                  "schema": Object {
-                    "$ref": "#/components/schemas/TimeSchema",
-                  },
-                },
-              },
-              "description": "Server current date",
-            },
-          },
-          "summary": "Get API internal clock date.",
-          "tags": Array [
-            "system",
-          ],
-        },
-        "options": Object {
-          "operationId": "optionsWithCORS",
-          "parameters": Array [],
-          "responses": Object {
-            "200": Object {
-              "description": "CORS sent.",
-            },
-          },
-          "summary": "Enable OPTIONS for CORS",
-          "tags": Array [
-            "CORS",
-          ],
-          "x-whook": Object {
-            "private": true,
-            "sourceOperationId": "getTime",
-            "suffix": "CORS",
-            "type": "http",
-          },
-        },
-      },
-      "/{pathParam1}/{pathParam2}": Object {
-        "get": Object {
-          "operationId": "getParameters",
-          "parameters": Array [
-            Object {
-              "$ref": "#/components/parameters/pathParam1",
-            },
-            Object {
-              "$ref": "#/components/parameters/pathParam2",
-            },
-            Object {
-              "in": "header",
-              "name": "aHeader",
-              "schema": Object {
-                "type": "boolean",
-              },
-            },
-          ],
-          "responses": Object {
-            "200": Object {
-              "content": Object {
-                "application/json": Object {
-                  "schema": Object {
-                    "properties": Object {
-                      "aHeader": Object {
-                        "type": "boolean",
-                      },
-                      "pathParam1": Object {
-                        "type": "number",
-                      },
-                      "pathParam2": Object {
-                        "items": Object {
-                          "type": "string",
-                        },
-                        "type": "array",
-                      },
-                    },
-                    "type": "object",
-                  },
-                },
-              },
-              "description": "Delay expired",
-            },
-          },
-          "summary": "An handler intended to test parameters.",
-          "tags": Array [
-            "example",
-          ],
-        },
-        "options": Object {
-          "operationId": "optionsWithCORS",
-          "parameters": Array [
-            Object {
-              "$ref": "#/components/parameters/pathParam1",
-            },
-            Object {
-              "$ref": "#/components/parameters/pathParam2",
-            },
-          ],
-          "responses": Object {
-            "200": Object {
-              "description": "CORS sent.",
-            },
-          },
-          "summary": "Enable OPTIONS for CORS",
-          "tags": Array [
-            "CORS",
-          ],
-          "x-whook": Object {
-            "private": true,
-            "sourceOperationId": "getParameters",
             "suffix": "CORS",
             "type": "http",
           },

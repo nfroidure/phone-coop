@@ -1,0 +1,39 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*'
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm i
+      working-directory: back
+    - run: npm run compile
+      working-directory: back
+    - run: NODE_ENV=test npm run types
+      working-directory: back
+    - run: npm run lint
+      working-directory: back
+      env:
+        CI: true
+    - run: npm run jest
+      working-directory: back
+      env:
+        CI: true
