@@ -9,18 +9,20 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import type { NextPage } from "next";
 import InputComponent from "../components/InputComponent";
 import ValidationButton from "../components/validationButton";
-import PhoneBrand from "../components/PhoneBrand";
+import Select from "../components/Select";
 
 type Inputs = {
   firstName: string;
   givenName: string;
   email: string;
   tel: string;
-  phoneBrand: string;
+  Select: string;
   phoneYear: string;
 };
 
 const PAGE_TITLE = "Phone Coop: Recyclez votre téléphone";
+const SELECT_TITLE = "--Veuillez choisir votre marque--";
+const PHONES_OPTIONS = ["Fairphone", "Wiko", "Samsung", "Apple", "Huawei", "Xiaomi", "OnePlus", "Autre"];
 
 const Home: NextPage = () => {
   const {
@@ -102,7 +104,7 @@ const Home: NextPage = () => {
             title={"Renseignez ici les caractéristiques du téléphone : "}
           >
             <FormRow label={"Modèle du Téléphone"} errorMessages={[]}>
-              <PhoneBrand {...register("phoneBrand", { required: false })} />
+              <Select title={SELECT_TITLE} options={PHONES_OPTIONS} id={"select-brand"} {...register("Select", { required: false })} />
             </FormRow>
             <FormRow label={"Année d'achat"} errorMessages={[]}>
               <InputComponent
