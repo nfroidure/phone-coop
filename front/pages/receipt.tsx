@@ -1,7 +1,8 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/receipt.module.css'
+import type { NextPage } from "next";
+import Head from "next/head";
+import styles from "../styles/receipt.module.css";
+import API from "../utils/api";
+import useAPISWR from "../utils/swr";
 
 const Home: NextPage = () => {
   return (
@@ -13,12 +14,11 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Get your QR code
-        </h1>
+        <h1 className={styles.title}>Get your QR code</h1>
       </main>
+      <pre>{JSON.stringify(useAPISWR([API.getPing, {}]))}</pre>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

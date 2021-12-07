@@ -77,7 +77,7 @@ const CONFIG: AppConfigs = {
     algorithms: ['HS256'],
   },
   CORS: {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': 'http://app.phone.localhost:3000',
     'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
     'Access-Control-Allow-Headers': [
       'Accept',
@@ -89,6 +89,9 @@ const CONFIG: AppConfigs = {
       'Authorization',
       'Keep-Alive',
       'User-Agent',
+      'X-SDK-Version',
+      'X-Application-Version',
+      'X-API-Version',
     ].join(','),
   },
 };
