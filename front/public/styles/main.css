@@ -22,6 +22,9 @@
     --warning: #ff521b;
     --danger: #ea2b1f;
 
+    --qrcodebg: #00EA7A;
+    --qrcodefg: #008C7C;
+
     /* Atomic values */
     --hGrid: 0.55rem;
     --gutter: calc(var(--hGrid) * 3);

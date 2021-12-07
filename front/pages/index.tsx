@@ -72,7 +72,7 @@ const Home: NextPage = () => {
                 type="text"
                 autoComplete="first-name"
                 defaultValue=""
-                {...register("firstName", { required: false })}
+                {...register("firstName", { required: true })}
               />
             </FormRow>
             <FormRow
@@ -83,7 +83,7 @@ const Home: NextPage = () => {
                 type="text"
                 autoComplete="given-name"
                 defaultValue=""
-                {...register("givenName", { required: false })}
+                {...register("givenName", { required: true })}
               />
             </FormRow>
             <FormRow
@@ -94,7 +94,7 @@ const Home: NextPage = () => {
                 type="text"
                 autoComplete="email"
                 defaultValue=""
-                {...register("email", { required: false })}
+                {...register("email", { required: true })}
               />
             </FormRow>
             <FormRow
@@ -105,7 +105,7 @@ const Home: NextPage = () => {
                 type="text"
                 autoComplete="tel"
                 defaultValue=""
-                {...register("tel", { required: false })}
+                {...register("tel", { required: true })}
               />
             </FormRow>
           </FormSection>
@@ -113,13 +113,13 @@ const Home: NextPage = () => {
             title={"Renseignez ici les caractéristiques du téléphone : "}
           >
             <FormRow label={"Modèle du Téléphone"} errorMessages={[]}>
-              <Select title={SELECT_TITLE} options={brands.data as any} id={"select-brand"} {...register("phoneBrand", { required: false })} />
+              <Select title={SELECT_TITLE} options={brands.data as any} id={"select-brand"} {...register("phoneBrand", { required: true })} />
             </FormRow>
             <FormRow label={"Année d'achat"} errorMessages={[]}>
               <InputComponent
                 type="text"
                 defaultValue=""
-                {...register("phoneYear", { required: false })}
+                {...register("phoneYear", { required: true })}
               />
             </FormRow>
           </FormSection>
