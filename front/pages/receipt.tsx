@@ -5,25 +5,20 @@ import styles from "../styles/receipt.module.css";
 import { readParams } from "../utils/params";
 import { useRouter } from "next/router";
 import QRCode from "../components/QRCode";
-
+import Footer from "../components/footer";
 
 const QUERY_PARAMS = {
   token: {
-    mode: 'unique',
-    type: 'string',
+    mode: "unique",
+    type: "string",
   },
 } as const;
 
-export type ReceiptQueryParams = BuildQueryParamsType<
-  typeof QUERY_PARAMS
->;
+export type ReceiptQueryParams = BuildQueryParamsType<typeof QUERY_PARAMS>;
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const query = readParams<ReceiptQueryParams>(
-    QUERY_PARAMS,
-    router.query,
-  );
+  const query = readParams<ReceiptQueryParams>(QUERY_PARAMS, router.query);
 
   return (
     <div className={styles.container}>
@@ -34,11 +29,14 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-          <h1 className={styles.title}>Get your QR code</h1>
-          <p className={styles.p}>Vous avez maintenant votre QR code !</p>
-          <p className={styles.p}>Allez à la borne la plus proche pour déposer votre téléphone.</p>
-          <QRCode style={{marginTop: 50}} values={{token: query.token,}} />
+        <h1 className={styles.title}>Get your QR code</h1>
+        <p className={styles.p}>Vous avez maintenant votre QR code !</p>
+        <p className={styles.p}>
+          Allez à la borne la plus proche pour déposer votre téléphone.
+        </p>
+        <QRCode style={{ marginTop: 50 }} values={{ token: query.token }} />
       </main>
+      <Footer />
     </div>
   );
 };

@@ -11,6 +11,7 @@ const CONFIG: AppConfigs = {
   ...COMMON_CONFIG,
   DEV_ACCESS_TOKEN: 'admin|1|1',
   DEFAULT_MECHANISM: 'Fake',
+  APP_BASE_URL: 'http://app.phone.localhost:3000',
   // This allows you to map service names depending on
   // the targetted environment. Here, for dev, we don't send SMS
   // but instead log them to slack.

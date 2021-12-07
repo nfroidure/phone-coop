@@ -7,7 +7,7 @@ const InputComponent = React.forwardRef(
       type,
       ...props
     }: Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {
-      type: "text" | "tel" | "email";
+      type: "text" | "tel" | "email" | "number";
     },
     ref?: ForwardedRef<HTMLInputElement>
   ) => {

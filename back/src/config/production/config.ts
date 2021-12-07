@@ -3,6 +3,7 @@ import type { AppConfigs } from '../common/config';
 
 const CONFIG: AppConfigs = {
   ...COMMON_CONFIG,
+  APP_BASE_URL: 'https://app.phone-coop.com',
 };
 
 export default CONFIG;
