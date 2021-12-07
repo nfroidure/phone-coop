@@ -11,14 +11,17 @@ Array [
 exports[`API should always have the same amount of endpoints 1`] = `
 Array [
   "get /openAPI",
+  "get /phones/brands",
   "get /ping",
 ]
 `;
 
 exports[`API should always have the same amount of non authenticated endpoints 1`] = `
 Array [
+  "get /phones/brands",
   "get /ping",
   "options /openAPI",
+  "options /phones/brands",
   "options /ping",
 ]
 `;
@@ -32,6 +35,7 @@ Array [
 exports[`API should always have the same amount of publicly documented endpoints 1`] = `
 Array [
   "get /openAPI",
+  "get /phones/brands",
   "get /ping",
 ]
 `;
@@ -123,6 +127,61 @@ Object {
           "x-whook": Object {
             "private": true,
             "sourceOperationId": "getOpenAPI",
+            "suffix": "CORS",
+            "type": "http",
+          },
+        },
+      },
+      "/phones/brands": Object {
+        "get": Object {
+          "operationId": "getPhoneBrands",
+          "parameters": Array [],
+          "responses": Object {
+            "200": Object {
+              "content": Object {
+                "application/json": Object {
+                  "schema": Object {
+                    "items": Object {
+                      "properties": Object {
+                        "id": Object {
+                          "minimum": 1,
+                          "type": "number",
+                        },
+                        "label": Object {
+                          "type": "string",
+                        },
+                      },
+                      "required": Array [
+                        "id",
+                        "label",
+                      ],
+                      "type": "object",
+                    },
+                    "type": "array",
+                  },
+                },
+              },
+              "description": "Success",
+            },
+          },
+          "summary": "Provide a list of phones brands",
+          "tags": Array [],
+        },
+        "options": Object {
+          "operationId": "optionsWithCORS",
+          "parameters": Array [],
+          "responses": Object {
+            "200": Object {
+              "description": "CORS sent.",
+            },
+          },
+          "summary": "Enable OPTIONS for CORS",
+          "tags": Array [
+            "CORS",
+          ],
+          "x-whook": Object {
+            "private": true,
+            "sourceOperationId": "getPhoneBrands",
             "suffix": "CORS",
             "type": "http",
           },
