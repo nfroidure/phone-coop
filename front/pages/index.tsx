@@ -20,7 +20,7 @@ type Inputs = {
   givenName: string;
   email: string;
   tel: string;
-  Select: string;
+  phoneBrand: string;
   phoneYear: string;
 };
 
@@ -34,7 +34,9 @@ const Home: NextPage = () => {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data) => API.postToken({
+    body:data
+  });
   const brands = useAPISWR([API.getPhoneBrands, {}], {
     revalidateOnFocus: false,
     dedupingInterval: ms('1m'),
@@ -111,7 +113,7 @@ const Home: NextPage = () => {
             title={"Renseignez ici les caractéristiques du téléphone : "}
           >
             <FormRow label={"Modèle du Téléphone"} errorMessages={[]}>
-              <Select title={SELECT_TITLE} options={brands.data as any} id={"select-brand"} {...register("Select", { required: false })} />
+              <Select title={SELECT_TITLE} options={brands.data as any} id={"select-brand"} {...register("phoneBrand", { required: false })} />
             </FormRow>
             <FormRow label={"Année d'achat"} errorMessages={[]}>
               <InputComponent

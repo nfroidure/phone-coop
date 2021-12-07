@@ -56,6 +56,16 @@ declare namespace APITypes {
       export type $200 = Components.Responses.getPhoneBrandsResponse200<200>;
     }
   }
+  export namespace PostToken {
+    export type Body = Components.RequestBodies.PostTokenRequestBody;
+    export type Output = Responses.$200;
+    export type Input = {
+      readonly body: Body;
+    };
+    export namespace Responses {
+      export type $200 = Components.Responses.postTokenResponse200<200>;
+    }
+  }
   export namespace GetPing {
     export type Output = Responses.$200;
     export type Input = {};
@@ -65,6 +75,10 @@ declare namespace APITypes {
   }
 }
 declare namespace Components {
+  export namespace RequestBodies {
+    export type PostTokenRequestBody =
+      Components.Schemas.RequestBodiespostTokenRequestBodyBody0;
+  }
   export namespace Responses {
     type getOpenAPIResponse200<S extends number> = {
       readonly status: S;
@@ -80,6 +94,13 @@ declare namespace Components {
       };
       readonly body: Components.Schemas.ResponsesgetPhoneBrandsResponse200Body0;
     };
+    type postTokenResponse200<S extends number> = {
+      readonly status: S;
+      readonly headers?: {
+        readonly [name: string]: unknown;
+      };
+      readonly body: Components.Schemas.ResponsespostTokenResponse200Body0;
+    };
     type getPingResponse200<S extends number> = {
       readonly status: S;
       readonly headers?: {
@@ -89,6 +110,14 @@ declare namespace Components {
     };
   }
   export namespace Schemas {
+    export type RequestBodiespostTokenRequestBodyBody0 = NonNullable<{
+      firstName: NonNullable<string>;
+      givenName: NonNullable<string>;
+      email: NonNullable<string>;
+      tel: NonNullable<string>;
+      phoneBrand: NonNullable<string>;
+      phoneYear: NonNullable<string>;
+    }>;
     export type ResponsesgetOpenAPIResponse200Body0 = NonNullable<{}>;
     export type ResponsesgetPhoneBrandsResponse200Body0 = NonNullable<
       NonNullable<{
@@ -96,6 +125,7 @@ declare namespace Components {
         label: NonNullable<string>;
       }>[]
     >;
+    export type ResponsespostTokenResponse200Body0 = NonNullable<string>;
     export type ResponsesgetPingResponse200Body0 = NonNullable<{
       pong?: "pong";
     }>;
@@ -119,24 +149,28 @@ const INPUT_BUILDER_DEFAULTS = {
 const API = {
   getOpenAPI,
   getPhoneBrands,
+  postToken,
   getPing,
 };
 
 export const APIURIBuilders = {
   getOpenAPI: buildGetOpenAPIURI,
   getPhoneBrands: buildGetPhoneBrandsURI,
+  postToken: buildPostTokenURI,
   getPing: buildGetPingURI,
 };
 
 export const APIMethods = {
   getOpenAPI: "get",
   getPhoneBrands: "get",
+  postToken: "post",
   getPing: "get",
 } as const;
 
 export const APIInputBuilders = {
   getOpenAPI: buildGetOpenAPIInput,
   getPhoneBrands: buildGetPhoneBrandsInput,
+  postToken: buildPostTokenInput,
   getPing: buildGetPingInput,
 };
 
@@ -348,6 +382,120 @@ async function getPhoneBrands(
     headers: response.headers,
     body: response.data,
   } as APITypes.GetPhoneBrands.Output;
+}
+
+/**
+ * Build the "postToken" URI parameters$
+ * @return {Object}
+ * The object describing the built URI
+ * @param {Object} parameters
+ * The parameters provided to build the URI (destructured)
+ * @param {Object} options
+ * The options (destructured)
+ * @param {string} options.baseURL
+ * The base URL of the API
+ */
+function buildPostTokenURI(
+  _: unknown,
+  {
+    baseURL: __baseURL = DEFAULT_BASE_URL,
+  }: URIBuilderOptions = URI_BUILDER_DEFAULTS
+): URIData {
+  const __pathParts = ["tokens"];
+  const __qs = cleanQuery({});
+
+  return {
+    baseURL: __baseURL,
+    path: __pathParts.join("/"),
+    params: __qs,
+  };
+}
+
+/**
+ * Build all the "postToken" parameters
+ * @return {Object}
+ * The object describing the built parameters
+ * @param {Object} body
+ * The request body
+ * @param {Object} parameters
+ * The parameters provided to build them (destructured)
+ * @param {Object} options
+ * The options (destructured)
+ * @param {string} options.baseURL
+ * The base URL of the API
+ * @param {string} options.headers
+ * Any additional headers to append
+ */
+function buildPostTokenInput(
+  { body }: APITypes.PostToken.Input,
+  {
+    baseURL: __baseURL = DEFAULT_BASE_URL,
+    headers: __headers = {},
+  }: InputBuilderOptions = INPUT_BUILDER_DEFAULTS
+): HTTPRequest<APITypes.PostToken.Input["body"]> {
+  const __method = APIMethods.postToken;
+  const __uriData = buildPostTokenURI({}, { baseURL: __baseURL });
+
+  return {
+    method: __method,
+    ...__uriData,
+    headers: cleanHeaders(
+      Object.assign(__headers, {
+        "X-API-Version": "0.0.0",
+      })
+    ),
+    body: body,
+  };
+}
+
+/**
+ * Send an email with a token to the customer
+ * @return {Object}
+ * The object describing the built parameters
+ * @param {Object} body
+ * The request body
+ * @param {Object} parameters
+ * The parameters provided to build them (destructured)
+ * @param {Object} options
+ * Options to override Axios request configuration
+ * @return {Object}
+ * The HTTP response
+ */
+async function postToken(
+  { body }: APITypes.PostToken.Input,
+  options: InputBuilderOptions & Partial<AxiosRequestConfig> = {}
+): Promise<Writeable<APITypes.PostToken.Output>> {
+  const httpRequest = buildPostTokenInput(
+    {
+      body,
+    },
+    options
+  );
+  const callOptions = {
+    baseURL: httpRequest.baseURL,
+    method: httpRequest.method,
+    url: httpRequest.path,
+    headers: httpRequest.headers,
+    params: httpRequest.params,
+    data: httpRequest.body,
+  };
+
+  const response = await axios(
+    Object.assign(
+      {
+        ...callOptions,
+        paramsSerializer: querystring.stringify.bind(querystring),
+        validateStatus: (status: number) => 200 <= status && 300 > status,
+      },
+      options || {}
+    )
+  );
+
+  return {
+    status: response.status,
+    headers: response.headers,
+    body: response.data,
+  } as APITypes.PostToken.Output;
 }
 
 /**
