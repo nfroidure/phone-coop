@@ -1,11 +1,11 @@
 import useCSSVar from "../hooks/useCSSVar";
-import { QRious } from 'react-qrious';
+import QRCodeReact from "qrcode.react";
 import {CSSProperties} from "react";
 
-export default function Paragraph({ values, style }: { values: object, style?: CSSProperties | undefined }) {
+export default function QRCode({ values, style }: { values: object, style?: CSSProperties | undefined }) {
     return (
         <div style={style}>
-            <QRious value={JSON.stringify(values)} background={useCSSVar('--primary', 'auto')} foreground={useCSSVar('--secondary-darker', 'auto')} level={"H"} size={200} />
+            <QRCodeReact value={JSON.stringify(values)} bgColor={"#00EA7A"} fgColor={"#008C7C"} level={"H"} size={200} />
         </div>
     );
 }

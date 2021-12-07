@@ -4,6 +4,7 @@ import Head from "next/head";
 import styles from "../styles/receipt.module.css";
 import { readParams } from "../utils/params";
 import { useRouter } from "next/router";
+import QRCode from "../components/QRCode";
 
 
 const QUERY_PARAMS = {
@@ -33,8 +34,10 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Get your QR code</h1>
-        <p>{query.token}</p>
+          <h1 className={styles.title}>Get your QR code</h1>
+          <p className={styles.p}>Vous avez maintenant votre QR code !</p>
+          <p className={styles.p}>Allez à la borne la plus proche pour déposer votre téléphone.</p>
+          <QRCode style={{marginTop: 50}} values={{token: query.token,}} />
       </main>
     </div>
   );
