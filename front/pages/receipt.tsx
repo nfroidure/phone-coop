@@ -1,10 +1,29 @@
 import type { NextPage } from "next";
+import type { BuildQueryParamsType } from "../utils/params";
 import Head from "next/head";
 import styles from "../styles/receipt.module.css";
-import API from "../utils/api";
-import useAPISWR from "../utils/swr";
+import { readParams } from "../utils/params";
+import { useRouter } from "next/router";
+
+
+const QUERY_PARAMS = {
+  token: {
+    mode: 'unique',
+    type: 'string',
+  },
+} as const;
+
+export type ReceiptQueryParams = BuildQueryParamsType<
+  typeof QUERY_PARAMS
+>;
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const query = readParams<ReceiptQueryParams>(
+    QUERY_PARAMS,
+    router.query,
+  );
+
   return (
     <div className={styles.container}>
       <Head>
@@ -15,8 +34,8 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Get your QR code</h1>
+        <p>{query.token}</p>
       </main>
-      <pre>{JSON.stringify(useAPISWR([API.getPing, {}]))}</pre>
     </div>
   );
 };
