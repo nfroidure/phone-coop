@@ -14,6 +14,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
+To build the SDK:
+```sh
+curl -X GET "http://api.phonecoop.localhost:8000/v0/openAPI" | node bin/generateSDK.js > utils/sdk.ts; npm run prettier -- utils/sdk.ts;
+```
+
 ## Components
 
 This project uses components, you can check the components library with:
