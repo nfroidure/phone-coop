@@ -5,10 +5,17 @@
   background-color: var(--primary);
   border: 2px var(--tertiary) solid;
   color: var(--tertiary);
+  font-size: var(--mediumFontSize);
+  margin-top: 1rem;
 }
 
 .button:hover {
   background-color: var(--tertiary);
   border-color: var(--primary);
   color: var(--primary);
+  box-shadow: 5px 5px 5px var(--grey);
+}
+
+.button:active {
+  box-shadow: 10px 5px 5px var(--grey) inset;
 }
