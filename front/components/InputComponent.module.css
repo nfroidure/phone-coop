@@ -1,4 +1,5 @@
 .input {
     font-size: .9rem;
     padding: 2px 5px;
+    color: var(--primary);
 }

@@ -3,7 +3,7 @@
   font-size: 4rem;
   text-decoration: underline;
   padding: 2rem;
-  color: var(--grey);
+  color: var(--primary);
 }
 
 .h2 {
@@ -11,7 +11,7 @@
   font-size: 3rem;
   text-decoration: underline;
   padding: 1rem;
-  color: var(--grey);
+  color: var(--primary);
 }
 
 .h3 {
@@ -19,5 +19,5 @@
   font-size: 2rem;
   text-decoration: underline;
   padding: 1rem 2rem 0 2rem;
-  color: var(--grey);
+  color: var(--primary);
 }
