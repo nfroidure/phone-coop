@@ -10,6 +10,7 @@ import type { NextPage } from "next";
 import InputComponent from "../components/InputComponent";
 import ValidationButton from "../components/validationButton";
 import Select from "../components/Select";
+import Footer from "../components/footer";
 
 type Inputs = {
   firstName: string;
@@ -117,6 +118,8 @@ const Home: NextPage = () => {
           <ValidationButton type="submit">Envoyer</ValidationButton>
         </form>
       </main>
+      <Footer></Footer>
+      <br/>
     </div>
   );
 };

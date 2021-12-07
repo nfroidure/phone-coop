@@ -1,0 +1,11 @@
+.foot {
+    border: 2px solid;
+    border-color: var(--grey);
+    margin-top: 3.5rem;
+
+}
+
+.copyright {
+    margin: 1rem;
+
+}
