@@ -13,6 +13,7 @@ Array [
   "get /openAPI",
   "get /phones/brands",
   "get /ping",
+  "post /tokens",
 ]
 `;
 
@@ -23,6 +24,8 @@ Array [
   "options /openAPI",
   "options /phones/brands",
   "options /ping",
+  "options /tokens",
+  "post /tokens",
 ]
 `;
 
@@ -37,6 +40,7 @@ Array [
   "get /openAPI",
   "get /phones/brands",
   "get /ping",
+  "post /tokens",
 ]
 `;
 
@@ -234,6 +238,84 @@ Object {
             "suffix": "CORS",
             "type": "http",
           },
+        },
+      },
+      "/tokens": Object {
+        "options": Object {
+          "operationId": "optionsWithCORS",
+          "parameters": Array [],
+          "responses": Object {
+            "200": Object {
+              "description": "CORS sent.",
+            },
+          },
+          "summary": "Enable OPTIONS for CORS",
+          "tags": Array [
+            "CORS",
+          ],
+          "x-whook": Object {
+            "private": true,
+            "sourceOperationId": "postToken",
+            "suffix": "CORS",
+            "type": "http",
+          },
+        },
+        "post": Object {
+          "operationId": "postToken",
+          "parameters": Array [],
+          "requestBody": Object {
+            "content": Object {
+              "application/json": Object {
+                "schema": Object {
+                  "properties": Object {
+                    "email": Object {
+                      "type": "string",
+                    },
+                    "firstName": Object {
+                      "type": "string",
+                    },
+                    "givenName": Object {
+                      "type": "string",
+                    },
+                    "phoneBrand": Object {
+                      "type": "string",
+                    },
+                    "phoneYear": Object {
+                      "type": "string",
+                    },
+                    "tel": Object {
+                      "type": "string",
+                    },
+                  },
+                  "required": Array [
+                    "firstName",
+                    "givenName",
+                    "email",
+                    "tel",
+                    "phoneBrand",
+                    "phoneYear",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Return of the form",
+            "required": true,
+          },
+          "responses": Object {
+            "200": Object {
+              "content": Object {
+                "application/json": Object {
+                  "schema": Object {
+                    "type": "string",
+                  },
+                },
+              },
+              "description": "Success",
+            },
+          },
+          "summary": "Send an email with a token to the customer",
+          "tags": Array [],
         },
       },
     },
