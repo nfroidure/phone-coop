@@ -49,6 +49,13 @@ declare namespace APITypes {
       export type $200 = Components.Responses.getOpenAPIResponse200<200>;
     }
   }
+  export namespace GetPhoneBrands {
+    export type Output = Responses.$200;
+    export type Input = {};
+    export namespace Responses {
+      export type $200 = Components.Responses.getPhoneBrandsResponse200<200>;
+    }
+  }
   export namespace GetPing {
     export type Output = Responses.$200;
     export type Input = {};
@@ -66,6 +73,13 @@ declare namespace Components {
       };
       readonly body: Components.Schemas.ResponsesgetOpenAPIResponse200Body0;
     };
+    type getPhoneBrandsResponse200<S extends number> = {
+      readonly status: S;
+      readonly headers?: {
+        readonly [name: string]: unknown;
+      };
+      readonly body: Components.Schemas.ResponsesgetPhoneBrandsResponse200Body0;
+    };
     type getPingResponse200<S extends number> = {
       readonly status: S;
       readonly headers?: {
@@ -76,6 +90,12 @@ declare namespace Components {
   }
   export namespace Schemas {
     export type ResponsesgetOpenAPIResponse200Body0 = NonNullable<{}>;
+    export type ResponsesgetPhoneBrandsResponse200Body0 = NonNullable<
+      NonNullable<{
+        id: NonNullable<number>;
+        label: NonNullable<string>;
+      }>[]
+    >;
     export type ResponsesgetPingResponse200Body0 = NonNullable<{
       pong?: "pong";
     }>;
@@ -98,21 +118,25 @@ const INPUT_BUILDER_DEFAULTS = {
  */
 const API = {
   getOpenAPI,
+  getPhoneBrands,
   getPing,
 };
 
 export const APIURIBuilders = {
   getOpenAPI: buildGetOpenAPIURI,
+  getPhoneBrands: buildGetPhoneBrandsURI,
   getPing: buildGetPingURI,
 };
 
 export const APIMethods = {
   getOpenAPI: "get",
+  getPhoneBrands: "get",
   getPing: "get",
 } as const;
 
 export const APIInputBuilders = {
   getOpenAPI: buildGetOpenAPIInput,
+  getPhoneBrands: buildGetPhoneBrandsInput,
   getPing: buildGetPingInput,
 };
 
@@ -219,6 +243,111 @@ async function getOpenAPI(
     headers: response.headers,
     body: response.data,
   } as APITypes.GetOpenAPI.Output;
+}
+
+/**
+ * Build the "getPhoneBrands" URI parameters$
+ * @return {Object}
+ * The object describing the built URI
+ * @param {Object} parameters
+ * The parameters provided to build the URI (destructured)
+ * @param {Object} options
+ * The options (destructured)
+ * @param {string} options.baseURL
+ * The base URL of the API
+ */
+function buildGetPhoneBrandsURI(
+  _: unknown,
+  {
+    baseURL: __baseURL = DEFAULT_BASE_URL,
+  }: URIBuilderOptions = URI_BUILDER_DEFAULTS
+): URIData {
+  const __pathParts = ["phones", "brands"];
+  const __qs = cleanQuery({});
+
+  return {
+    baseURL: __baseURL,
+    path: __pathParts.join("/"),
+    params: __qs,
+  };
+}
+
+/**
+ * Build all the "getPhoneBrands" parameters
+ * @return {Object}
+ * The object describing the built parameters
+ * @param {Object} parameters
+ * The parameters provided to build them (destructured)
+ * @param {Object} options
+ * The options (destructured)
+ * @param {string} options.baseURL
+ * The base URL of the API
+ * @param {string} options.headers
+ * Any additional headers to append
+ */
+function buildGetPhoneBrandsInput(
+  _: unknown,
+  {
+    baseURL: __baseURL = DEFAULT_BASE_URL,
+    headers: __headers = {},
+  }: InputBuilderOptions = INPUT_BUILDER_DEFAULTS
+): HTTPRequest<undefined> {
+  const __method = APIMethods.getPhoneBrands;
+  const __uriData = buildGetPhoneBrandsURI({}, { baseURL: __baseURL });
+
+  return {
+    method: __method,
+    ...__uriData,
+    headers: cleanHeaders(
+      Object.assign(__headers, {
+        "X-API-Version": "0.0.0",
+      })
+    ),
+    body: undefined,
+  };
+}
+
+/**
+ * Provide a list of phones brands
+ * @return {Object}
+ * The object describing the built parameters
+ * @param {Object} parameters
+ * The parameters provided to build them (destructured)
+ * @param {Object} options
+ * Options to override Axios request configuration
+ * @return {Object}
+ * The HTTP response
+ */
+async function getPhoneBrands(
+  _: unknown,
+  options: InputBuilderOptions & Partial<AxiosRequestConfig> = {}
+): Promise<Writeable<APITypes.GetPhoneBrands.Output>> {
+  const httpRequest = buildGetPhoneBrandsInput({}, options);
+  const callOptions = {
+    baseURL: httpRequest.baseURL,
+    method: httpRequest.method,
+    url: httpRequest.path,
+    headers: httpRequest.headers,
+    params: httpRequest.params,
+    data: httpRequest.body,
+  };
+
+  const response = await axios(
+    Object.assign(
+      {
+        ...callOptions,
+        paramsSerializer: querystring.stringify.bind(querystring),
+        validateStatus: (status: number) => 200 <= status && 300 > status,
+      },
+      options || {}
+    )
+  );
+
+  return {
+    status: response.status,
+    headers: response.headers,
+    body: response.data,
+  } as APITypes.GetPhoneBrands.Output;
 }
 
 /**

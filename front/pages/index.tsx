@@ -11,6 +11,9 @@ import InputComponent from "../components/InputComponent";
 import ValidationButton from "../components/validationButton";
 import Select from "../components/Select";
 import Footer from "../components/footer";
+import useAPISWR from "../utils/swr";
+import API from "../utils/api";
+import ms from "ms";
 
 type Inputs = {
   firstName: string;
@@ -23,7 +26,6 @@ type Inputs = {
 
 const PAGE_TITLE = "Phone Coop: Recyclez votre téléphone";
 const SELECT_TITLE = "--Veuillez choisir votre marque--";
-const PHONES_OPTIONS = ["Fairphone", "Wiko", "Samsung", "Apple", "Huawei", "Xiaomi", "OnePlus", "Autre"];
 
 const Home: NextPage = () => {
   const {
@@ -33,6 +35,10 @@ const Home: NextPage = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const brands = useAPISWR([API.getPhoneBrands, {}], {
+    revalidateOnFocus: false,
+    dedupingInterval: ms('1m'),
+  });
 
   return (
     <div className={styles.container}>
@@ -105,7 +111,7 @@ const Home: NextPage = () => {
             title={"Renseignez ici les caractéristiques du téléphone : "}
           >
             <FormRow label={"Modèle du Téléphone"} errorMessages={[]}>
-              <Select title={SELECT_TITLE} options={PHONES_OPTIONS} id={"select-brand"} {...register("Select", { required: false })} />
+              <Select title={SELECT_TITLE} options={brands.data as any} id={"select-brand"} {...register("Select", { required: false })} />
             </FormRow>
             <FormRow label={"Année d'achat"} errorMessages={[]}>
               <InputComponent
