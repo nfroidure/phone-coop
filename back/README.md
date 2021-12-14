@@ -1,14 +1,9 @@
-# new-whook-project
-
-This is a basic [Whook](https://github.com/nfroidure/whook) server demonstrating
-the various usages of the Whook framework to build REST APIs.
-
+# phone coop
 ## Usage
 
 To run the server in production:
 
 ```sh
-npm it
 NODE_ENV=production npm start
 ```
 

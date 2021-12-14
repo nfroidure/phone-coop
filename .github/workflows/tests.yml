@@ -1,4 +1,4 @@
-name: Tests_Front
+name: Tests
 
 on:
   push:
@@ -23,13 +23,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm i
-      working-directory: front
-    - run: npm run types
-      working-directory: front
-      env:
-        CI: true
-    - run: npm t
-      working-directory: front
-      env:
-        CI: true
+    - run: npm set-script postinstall ""
+    - run: npm install
+    - run: npx lerna bootstrap --no-ci
+    - run: npm run compile
+      working-directory: back
+    - run: NODE_ENV=test npx lerna run types
+    - run: NODE_ENV=test npx lerna run lint
+    - run: NODE_ENV=test npx lerna run jest
+
