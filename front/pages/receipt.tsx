@@ -32,9 +32,13 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>Get your QR code</h1>
         <p className={styles.p}>Vous avez maintenant votre QR code !</p>
         <p className={styles.p}>
-          Allez à la borne la plus proche pour déposer votre téléphone.
+          Téléchargez-le et présentez le à la borne la plus proche avant de
+          déposer votre téléphone.
         </p>
-        <QRCode style={{ marginTop: 50 }} values={{ token: query.token }} />
+        <QRCode
+          style={{ marginTop: 50, textAlign: "center" }}
+          values={{ token: query.token }}
+        />
       </main>
       <Footer />
     </div>
