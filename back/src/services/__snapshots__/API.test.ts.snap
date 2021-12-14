@@ -278,10 +278,10 @@ Object {
                       "type": "string",
                     },
                     "phoneBrand": Object {
-                      "type": "string",
+                      "type": "number",
                     },
                     "phoneYear": Object {
-                      "type": "string",
+                      "type": "number",
                     },
                     "tel": Object {
                       "type": "string",
@@ -303,14 +303,7 @@ Object {
             "required": true,
           },
           "responses": Object {
-            "200": Object {
-              "content": Object {
-                "application/json": Object {
-                  "schema": Object {
-                    "type": "string",
-                  },
-                },
-              },
+            "204": Object {
               "description": "Success",
             },
           },

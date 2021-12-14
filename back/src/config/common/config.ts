@@ -33,7 +33,9 @@ export type AppConfigs = WhookConfigs &
   WhookSwaggerUIConfig &
   WhookCORSConfig &
   APIConfig &
-  JWTServiceConfig;
+  JWTServiceConfig & {
+    APP_BASE_URL: string;
+  };
 
 /* Architecture Note #3.2.3: Typings
 
@@ -52,7 +54,7 @@ Each configuration file then create a configuration object
 
 See the [Whook Config Service](https://github.com/nfroidure/whook/blob/7dce55291a81628a0e95a07ce1e978a276b99578/packages/whook/src/services/CONFIGS.ts#L56).
 */
-const CONFIG: AppConfigs = {
+const CONFIG: Omit<AppConfigs, 'APP_BASE_URL'> = {
   BASE_ENV: {},
   API_VERSION: packageConf.version,
   BASE_PATH: `/v${packageConf.version.split('.')[0]}`,

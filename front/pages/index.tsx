@@ -4,7 +4,7 @@ import Title from "../components/title";
 import styles from "../styles/Home.module.css";
 import FormSection from "../components/formSection";
 import FormRow from "../components/formRow";
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import type { NextPage } from "next";
 import InputComponent from "../components/InputComponent";
@@ -31,16 +31,24 @@ const Home: NextPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => API.postToken({
-    body:data
-  });
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    API.postToken({
+      body: {
+        ...data,
+        phoneBrand: parseInt(data.phoneBrand, 10),
+        phoneYear: parseInt(data.phoneYear, 10),
+      },
+    }).then(() => {
+      setSubmitted(true);
+    });
+  };
   const brands = useAPISWR([API.getPhoneBrands, {}], {
     revalidateOnFocus: false,
-    dedupingInterval: ms('1m'),
+    dedupingInterval: ms("1m"),
   });
+  const [submitted, setSubmitted] = useState(false);
 
   return (
     <div className={styles.container}>
@@ -58,76 +66,94 @@ const Home: NextPage = () => {
           borne de recyclage et obtenir un bon d&quot;achat pour un téléphone
           responsable (ex FairPhone).
         </Paragraph>
-        <Title level={2}>Je complète le formulaire</Title>
+        {submitted ? (
+          <Title level={2}>Envoyé !</Title>
+        ) : (
+          <>
+            <Title level={2}>Je complète le formulaire</Title>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormSection
-            title={"Veuillez indiquer vos informations personnelles : "}
-          >
-            <FormRow
-              label={"Nom"}
-              errorMessages={errors.firstName?.message ? ["Nom requis"] : []}
-            >
-              <InputComponent
-                type="text"
-                autoComplete="first-name"
-                defaultValue=""
-                {...register("firstName", { required: true })}
-              />
-            </FormRow>
-            <FormRow
-              label={"Prénom"}
-              errorMessages={errors.givenName?.message ? ["Prénom requis"] : []}
-            >
-              <InputComponent
-                type="text"
-                autoComplete="given-name"
-                defaultValue=""
-                {...register("givenName", { required: true })}
-              />
-            </FormRow>
-            <FormRow
-              label={"Courriel"}
-              errorMessages={errors.email?.message ? ["Courriel requis"] : []}
-            >
-              <InputComponent
-                type="text"
-                autoComplete="email"
-                defaultValue=""
-                {...register("email", { required: true })}
-              />
-            </FormRow>
-            <FormRow
-              label={"Téléphone"}
-              errorMessages={errors.tel?.message ? ["Téléphone requis"] : []}
-            >
-              <InputComponent
-                type="text"
-                autoComplete="tel"
-                defaultValue=""
-                {...register("tel", { required: true })}
-              />
-            </FormRow>
-          </FormSection>
-          <FormSection
-            title={"Renseignez ici les caractéristiques du téléphone : "}
-          >
-            <FormRow label={"Modèle du Téléphone"} errorMessages={[]}>
-              <Select title={SELECT_TITLE} options={brands.data as any} id={"select-brand"} {...register("phoneBrand", { required: true })} />
-            </FormRow>
-            <FormRow label={"Année d'achat"} errorMessages={[]}>
-              <InputComponent
-                type="text"
-                defaultValue=""
-                {...register("phoneYear", { required: true })}
-              />
-            </FormRow>
-          </FormSection>
-          <ValidationButton type="submit">Envoyer</ValidationButton>
-        </form>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <FormSection
+                title={"Veuillez indiquer vos informations personnelles : "}
+              >
+                <FormRow
+                  label={"Nom"}
+                  errorMessages={
+                    errors.firstName?.message ? ["Nom requis"] : []
+                  }
+                >
+                  <InputComponent
+                    type="text"
+                    autoComplete="first-name"
+                    defaultValue=""
+                    {...register("firstName", { required: true })}
+                  />
+                </FormRow>
+                <FormRow
+                  label={"Prénom"}
+                  errorMessages={
+                    errors.givenName?.message ? ["Prénom requis"] : []
+                  }
+                >
+                  <InputComponent
+                    type="text"
+                    autoComplete="given-name"
+                    defaultValue=""
+                    {...register("givenName", { required: true })}
+                  />
+                </FormRow>
+                <FormRow
+                  label={"Courriel"}
+                  errorMessages={
+                    errors.email?.message ? ["Courriel requis"] : []
+                  }
+                >
+                  <InputComponent
+                    type="text"
+                    autoComplete="email"
+                    defaultValue=""
+                    {...register("email", { required: true })}
+                  />
+                </FormRow>
+                <FormRow
+                  label={"Téléphone"}
+                  errorMessages={
+                    errors.tel?.message ? ["Téléphone requis"] : []
+                  }
+                >
+                  <InputComponent
+                    type="text"
+                    autoComplete="tel"
+                    defaultValue=""
+                    {...register("tel", { required: true })}
+                  />
+                </FormRow>
+              </FormSection>
+              <FormSection
+                title={"Renseignez ici les caractéristiques du téléphone : "}
+              >
+                <FormRow label={"Modèle du Téléphone"} errorMessages={[]}>
+                  <Select
+                    title={SELECT_TITLE}
+                    options={brands.data as any}
+                    id={"select-brand"}
+                    {...register("phoneBrand", { required: true })}
+                  />
+                </FormRow>
+                <FormRow label={"Année d'achat"} errorMessages={[]}>
+                  <InputComponent
+                    type="number"
+                    defaultValue=""
+                    {...register("phoneYear", { required: true })}
+                  />
+                </FormRow>
+              </FormSection>
+              <ValidationButton type="submit">Envoyer</ValidationButton>
+            </form>
+          </>
+        )}
       </main>
-      <Footer></Footer>
-      <br/>
+      <Footer />
     </div>
   );
 };

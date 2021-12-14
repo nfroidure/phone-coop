@@ -15,12 +15,12 @@ declare namespace API {
     }
     export namespace PostToken {
         export type Body = Components.RequestBodies.PostTokenRequestBody;
-        export type Output = Responses.$200;
+        export type Output = Responses.$204;
         export type Input = {
             readonly body: Body;
         };
         export namespace Responses {
-            export type $200 = Components.Responses.postTokenResponse200<200>;
+            export type $204 = Components.Responses.postTokenResponse204<204>;
         }
     }
     export namespace GetPing {
@@ -36,6 +36,13 @@ declare namespace Components {
         export type PostTokenRequestBody = Components.Schemas.RequestBodiespostTokenRequestBodyBody0;
     }
     export namespace Responses {
+        type postTokenResponse204<S extends number> = {
+            readonly status: S;
+            readonly headers?: {
+                readonly [name: string]: unknown;
+            };
+            readonly body?: NonNullable<unknown>;
+        };
         type getOpenAPIResponse200<S extends number> = {
             readonly status: S;
             readonly headers?: {
@@ -49,13 +56,6 @@ declare namespace Components {
                 readonly [name: string]: unknown;
             };
             readonly body: Components.Schemas.ResponsesgetPhoneBrandsResponse200Body0;
-        };
-        type postTokenResponse200<S extends number> = {
-            readonly status: S;
-            readonly headers?: {
-                readonly [name: string]: unknown;
-            };
-            readonly body: Components.Schemas.ResponsespostTokenResponse200Body0;
         };
         type getPingResponse200<S extends number> = {
             readonly status: S;
@@ -71,15 +71,14 @@ declare namespace Components {
             givenName: NonNullable<string>;
             email: NonNullable<string>;
             tel: NonNullable<string>;
-            phoneBrand: NonNullable<string>;
-            phoneYear: NonNullable<string>;
+            phoneBrand: NonNullable<number>;
+            phoneYear: NonNullable<number>;
         }>;
         export type ResponsesgetOpenAPIResponse200Body0 = NonNullable<{}>;
         export type ResponsesgetPhoneBrandsResponse200Body0 = NonNullable<NonNullable<{
             id: NonNullable<number>;
             label: NonNullable<string>;
         }>[]>;
-        export type ResponsespostTokenResponse200Body0 = NonNullable<string>;
         export type ResponsesgetPingResponse200Body0 = NonNullable<{
             pong?: "pong";
         }>;

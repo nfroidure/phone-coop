@@ -1,7 +1,8 @@
 import { autoHandler } from 'knifecycle';
-import type { ENVService, WhookAPIHandlerDefinition } from '@whook/whook';
 import { JWTService } from 'jwt-service';
-import mailjet from 'node-mailjet';
+import { MailjetService } from '../services/mailjet';
+import YHTTPError from 'yhttperror';
+import type { WhookAPIHandlerDefinition } from '@whook/whook';
 
 export const definition: WhookAPIHandlerDefinition = {
   path: '/tokens',
@@ -31,47 +32,37 @@ export const definition: WhookAPIHandlerDefinition = {
               givenName: { type: 'string' },
               email: { type: 'string' },
               tel: { type: 'string' },
-              phoneBrand: { type: 'string' },
-              phoneYear: { type: 'string' },
+              phoneBrand: { type: 'number' },
+              phoneYear: { type: 'number' },
             },
           },
         },
       },
     },
     responses: {
-      200: {
+      204: {
         description: 'Success',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'string',
-            },
-          },
-        },
       },
     },
   },
 };
 
 type HandlerDependencies = {
-  ENV: ENVService;
+  APP_BASE_URL: string;
+  mailjet: MailjetService;
   jwtToken: JWTService<API.PostToken.Body>;
 };
 
 export default autoHandler(postToken);
 
 async function postToken(
-  { ENV, jwtToken }: HandlerDependencies,
+  { APP_BASE_URL, mailjet, jwtToken }: HandlerDependencies,
   { body }: API.PostToken.Input,
 ): Promise<API.PostToken.Output> {
   const token = await jwtToken.sign(body);
-  const encodedtoken = encodeURIComponent(token.token);
+  const encodedToken = encodeURIComponent(token.token);
 
-  const mailjetclient = mailjet.connect(
-    ENV.MAILJETAPIKEY,
-    ENV.MAILJETSECRETKEY,
-  );
-  const request = mailjetclient.post('send', { version: 'v3.1' }).request({
+  const request = mailjet.post('send', { version: 'v3.1' }).request({
     Messages: [
       {
         From: {
@@ -85,25 +76,28 @@ async function postToken(
           },
         ],
         Subject: 'Votre accusé de récéption',
-        TextPart: `Bonjour ${body.firstName} ${body.givenName}
-                    
-                     Merci pour votre confiance en PhoneCoop :)
-                     Veuillez trouver le lien vers votre QR code : 
-                     
-                     http://app.phone.localhost:3000/receipt?${encodedtoken}                
-                                        
-                    Cordialement,
-                    L'équipe de PhoneCoop`,
+        TextPart: `Bonjour ${body.firstName} ${body.givenName},
+  
+Merci pour votre confiance en PhoneCoop :)
+Veuillez trouver le lien vers votre QR code :
+
+${APP_BASE_URL}/receipt?token=${encodedToken}                
+
+Cordialement,
+L'équipe de PhoneCoop`,
 
         CustomID: 'AppGettingStartedTest',
       },
     ],
   });
-  const result = await request;
+
+  try {
+    await request;
+  } catch (err) {
+    throw YHTTPError.wrap(err, 500, 'E_MAILJET');
+  }
 
   return {
-    status: 200,
-    headers: {},
-    body: '',
+    status: 204,
   };
 }

@@ -22,7 +22,7 @@ const API = Object.keys(BaseAPI).reduce((FinalAPI, operationId) => {
           {
             ...input,
             xApplicationVersion: config.applicationVersion,
-          },
+          } as any,
           {
             ...options,
             baseURL: config.apiURL,
