@@ -5,12 +5,8 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "test:front": "cd front && npm t",
-    "test:back": "cd back && npm t",
-    "test": "npm run test:back && npm run test:front",
-    "install:front": "cd front && npm i",
-    "install:back": "cd back && npm i",
-    "postinstall": "npm run install:back && npm run install:front"
+    "test": "npx lerna run test",
+    "postinstall": "npx lerna bootstrap"
   },
   "repository": {
     "type": "git",
@@ -23,6 +19,7 @@
   },
   "homepage": "https://github.com/nfroidure/phone-coop#readme",
   "devDependencies": {
-    "husky": "^7.0.4"
+    "husky": "^7.0.4",
+    "lerna": "^4.0.0"
   }
 }
